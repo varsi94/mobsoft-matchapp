@@ -34,4 +34,14 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
     public void showMessage(String text) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void signUpFinished(boolean success, String message) {
+
+    }
+
+    @Override
+    public void logInFinished(boolean success, String message) {
+
+    }
 }

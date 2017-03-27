@@ -19,4 +19,11 @@ public class MainPresenter extends Presenter<MainScreen> {
     public void detachScreen() {
         super.detachScreen();
     }
+
+
+    public void login(String teamName, String password){
+    }
+
+    public void signup(String teamName, String password){
+    }
 }
