@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        MobSoftApplication.injector.inject(this);
     }
 
     @Override
