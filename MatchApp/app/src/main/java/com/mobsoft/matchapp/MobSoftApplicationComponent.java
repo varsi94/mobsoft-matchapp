@@ -1,5 +1,6 @@
 package com.mobsoft.matchapp;
 
+import com.mobsoft.matchapp.repository.RepositoryModule;
 import com.mobsoft.matchapp.ui.UiModule;
 import com.mobsoft.matchapp.ui.details.DetailsActivity;
 import com.mobsoft.matchapp.ui.editor.EditorActivity;
@@ -11,16 +12,14 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by mobsoft on 2017. 03. 27..
- */
-
 @Singleton
-@Component(modules = {UiModule.class})
+@Component(modules = {UiModule.class, RepositoryModule.class})
 public interface MobSoftApplicationComponent {
     void inject(MainActivity mainActivity);
     void inject(StandingsActivity standingsActivity);
     void inject(DetailsActivity detailsActivity);
     void inject(EditorActivity editorActivity);
     void inject(MatchListActivity matchListActivity);
+
+    void inject(MobSoftApplication app);
 }
