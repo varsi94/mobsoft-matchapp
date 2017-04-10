@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
+import com.mobsoft.matchapp.model.Team;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class StandingsActivity extends AppCompatActivity implements StandingsScr
     }
 
     @Override
-    public void updateStadings(List<String> standings) {
+    public void updateStandings(List<Team> standings) {
 
     }
 }
