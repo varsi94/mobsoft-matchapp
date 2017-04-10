@@ -3,6 +3,7 @@ package com.mobsoft.matchapp.interactor.teams;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.interactor.events.teams.GetStandingsEvent;
 import com.mobsoft.matchapp.interactor.events.teams.LoginTeamEvent;
+import com.mobsoft.matchapp.interactor.events.teams.SignUpTeamEvent;
 import com.mobsoft.matchapp.model.Team;
 import com.mobsoft.matchapp.repository.Repository;
 
@@ -41,6 +42,17 @@ public class TeamInteractor {
         try {
             Team t = repository.getTeam(userName, password);
             event.setContent(t);
+            bus.post(event);
+        } catch (Exception e) {
+            event.setThrowable(e);
+            bus.post(event);
+        }
+    }
+
+    public void signUp(String teamName, String password) {
+        SignUpTeamEvent event = new SignUpTeamEvent();
+        try {
+            repository.addTeam(new Team(0L, teamName, password));
             bus.post(event);
         } catch (Exception e) {
             event.setThrowable(e);

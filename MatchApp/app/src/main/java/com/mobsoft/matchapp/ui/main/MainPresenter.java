@@ -46,7 +46,7 @@ public class MainPresenter extends Presenter<MainScreen> {
     }
 
 
-    public void login(final String teamName, final String password) {
+    public void logIn(final String teamName, final String password) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -62,12 +62,31 @@ public class MainPresenter extends Presenter<MainScreen> {
 
         if (event.getThrowable() != null) {
             screen.logInFinished(false, "Error during connecting to the server!");
-            Log.e("GetStandings", "Error logging in", event.getThrowable());
+            Log.e("LogIn", "Error logging in", event.getThrowable());
         } else {
             screen.logInFinished(event.getContent() != null, "Invalid username or password!");
         }
     }
 
-    public void signup(String teamName, String password) {
+    public void signUp(final String teamName, final String password) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                teamInteractor.signUp(teamName, password);
+            }
+        });
+    }
+
+    public void onSignUpTeamEvent(LoginTeamEvent event) {
+        if (screen == null) {
+            return;
+        }
+
+        if (event.getThrowable() != null) {
+            screen.signUpFinished(false, "Error during connecting to the server!");
+            Log.e("SignUp", "Error signing up", event.getThrowable());
+        } else {
+            logIn(event.getContent().getName(), event.getContent().getPassword());
+        }
     }
 }

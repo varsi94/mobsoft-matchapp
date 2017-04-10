@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
 
     @Override
     public void signUpFinished(boolean success, String message) {
-
     }
 
     @Override
