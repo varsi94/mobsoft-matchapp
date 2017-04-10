@@ -1,5 +1,6 @@
 package com.mobsoft.matchapp.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 /**
@@ -7,7 +8,7 @@ import com.orm.dsl.Table;
  */
 
 @Table
-public class Team {
+public class Team extends SugarRecord {
     private Long id = null;
     private String name;
     private String password;

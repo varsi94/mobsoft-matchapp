@@ -1,5 +1,6 @@
 package com.mobsoft.matchapp.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Date;
  */
 
 @Table
-public class Match {
+public class Match extends SugarRecord {
     private Long id = null;
     private Team homeTeam;
     private Team awayTeam;
@@ -105,5 +106,16 @@ public class Match {
 
     public void setMatchDate(Date matchDate) {
         this.matchDate = matchDate;
+    }
+
+    public void update(Match other) {
+        homeTeam = other.homeTeam;
+        awayTeam = other.awayTeam;
+        homeTeamScore = other.homeTeamScore;
+        awayTeamScore = other.awayTeamScore;
+        homeTeamHalfTimeScore = other.homeTeamHalfTimeScore;
+        awayTeamHalfTimeScore = other.awayTeamHalfTimeScore;
+        venue = other.venue;
+        matchDate = other.matchDate;
     }
 }
