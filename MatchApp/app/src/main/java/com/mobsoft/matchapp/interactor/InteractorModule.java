@@ -1,6 +1,6 @@
 package com.mobsoft.matchapp.interactor;
 
-import com.mobsoft.matchapp.interactor.teams.TeamInteractor;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,7 +12,12 @@ import dagger.Provides;
 @Module
 public class InteractorModule {
     @Provides
-    public TeamInteractor provideInteractorModule() {
+    @Singleton
+    public TeamInteractor provideTeamInteractor() {
         return new TeamInteractor();
     }
+
+    @Provides
+    @Singleton
+    public MatchInteractor provideMatchInteractor() {return new MatchInteractor();}
 }

@@ -3,12 +3,14 @@ package com.mobsoft.matchapp.model;
 import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
+import java.io.Serializable;
+
 /**
  * Created by mobsoft on 2017. 04. 10..
  */
 
 @Table
-public class Team extends SugarRecord {
+public class Team extends SugarRecord implements Serializable {
     private Long id = null;
     private String name;
     private String password;

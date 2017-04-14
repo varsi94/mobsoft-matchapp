@@ -1,7 +1,8 @@
 package com.mobsoft.matchapp;
 
 import com.mobsoft.matchapp.interactor.InteractorModule;
-import com.mobsoft.matchapp.interactor.teams.TeamInteractor;
+import com.mobsoft.matchapp.interactor.MatchInteractor;
+import com.mobsoft.matchapp.interactor.TeamInteractor;
 import com.mobsoft.matchapp.repository.RepositoryModule;
 import com.mobsoft.matchapp.ui.UiModule;
 import com.mobsoft.matchapp.ui.details.DetailsActivity;
@@ -26,8 +27,9 @@ public interface MobSoftApplicationComponent {
     void inject(EditorActivity editorActivity);
     void inject(MatchListActivity matchListActivity);
     void inject(MobSoftApplication app);
-    void inject(TeamInteractor teamInteractor);
     void inject(StandingsPresenter standingsPresenter);
     void inject(MainPresenter mainPresenter);
     void inject(MatchListPresenter matchListPresenter);
+    void inject(TeamInteractor teamInteractor);
+    void inject(MatchInteractor matchInteractor);
 }

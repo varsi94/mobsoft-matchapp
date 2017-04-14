@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/teamNameTextView"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:textSize="24dp"
         />
 
@@ -14,6 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/detailsTextView"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:textAlignment="viewEnd"/>
 </LinearLayout>

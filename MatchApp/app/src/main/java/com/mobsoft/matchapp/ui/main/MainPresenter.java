@@ -3,18 +3,12 @@ package com.mobsoft.matchapp.ui.main;
 import android.util.Log;
 
 import com.mobsoft.matchapp.MobSoftApplication;
-import com.mobsoft.matchapp.interactor.events.teams.GetStandingsEvent;
+import com.mobsoft.matchapp.interactor.TeamInteractor;
 import com.mobsoft.matchapp.interactor.events.teams.LoginTeamEvent;
 import com.mobsoft.matchapp.interactor.events.teams.SignUpTeamEvent;
-import com.mobsoft.matchapp.interactor.teams.TeamInteractor;
-import com.mobsoft.matchapp.model.Team;
 import com.mobsoft.matchapp.ui.Presenter;
 
-import java.util.concurrent.Executor;
-
 import javax.inject.Inject;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by mobsoft on 2017. 03. 27..
