@@ -21,12 +21,6 @@ public class StandingsPresenter extends Presenter<StandingsScreen> {
     @Inject
     TeamInteractor teamInteractor;
 
-    @Inject
-    Executor executor;
-
-    @Inject
-    EventBus bus;
-
     public void screenLoaded() {
         executor.execute(new Runnable() {
             @Override
@@ -38,25 +32,28 @@ public class StandingsPresenter extends Presenter<StandingsScreen> {
 
     @Override
     public void attachScreen(StandingsScreen screen) {
-        super.attachScreen(screen);
         MobSoftApplication.injector.inject(this);
-        bus.register(this);
+        super.attachScreen(screen);
+        loadStandings();
     }
 
-    @Override
-    public void detachScreen() {
-        bus.unregister(this);
-        super.detachScreen();
+    private void loadStandings() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                teamInteractor.getStandings();
+            }
+        });
     }
 
-    public void onGetStandingsEvent(GetStandingsEvent event){
+    public void onEventMainThread(GetStandingsEvent event) {
         if (screen == null) {
             return;
         }
 
         if (event.getThrowable() != null) {
             screen.updateStandings(null);
-            Log.e("GetStandings", "Error reading stadings", event.getThrowable());
+            Log.e("GetStandings", "Error reading standings", event.getThrowable());
         } else {
             screen.updateStandings(event.getContent());
         }

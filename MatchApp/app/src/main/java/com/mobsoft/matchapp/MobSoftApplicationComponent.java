@@ -9,6 +9,7 @@ import com.mobsoft.matchapp.ui.editor.EditorActivity;
 import com.mobsoft.matchapp.ui.main.MainActivity;
 import com.mobsoft.matchapp.ui.main.MainPresenter;
 import com.mobsoft.matchapp.ui.matchlist.MatchListActivity;
+import com.mobsoft.matchapp.ui.matchlist.MatchListPresenter;
 import com.mobsoft.matchapp.ui.standings.StandingsActivity;
 import com.mobsoft.matchapp.ui.standings.StandingsPresenter;
 
@@ -28,4 +29,5 @@ public interface MobSoftApplicationComponent {
     void inject(TeamInteractor teamInteractor);
     void inject(StandingsPresenter standingsPresenter);
     void inject(MainPresenter mainPresenter);
+    void inject(MatchListPresenter matchListPresenter);
 }

@@ -1,5 +1,6 @@
 package com.mobsoft.matchapp.ui.standings;
 
+import com.mobsoft.matchapp.model.StandingsItem;
 import com.mobsoft.matchapp.model.Team;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
  */
 
 public interface StandingsScreen {
-    void updateStandings(List<Team> standings);
+    void updateStandings(List<StandingsItem> standings);
 }

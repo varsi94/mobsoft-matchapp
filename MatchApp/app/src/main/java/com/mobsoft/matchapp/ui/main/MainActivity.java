@@ -1,12 +1,17 @@
 package com.mobsoft.matchapp.ui.main;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mobsoft.matchapp.DaggerMobSoftApplicationComponent;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
+import com.mobsoft.matchapp.ui.standings.StandingsActivity;
 
 import javax.inject.Inject;
 
@@ -14,10 +19,22 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
     @Inject
     MainPresenter mainPresenter;
 
+    private EditText teamNameTextBox;
+    private EditText passwordTextBox;
+
+    private Button loginBtn;
+    private Button signUpBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        teamNameTextBox = (EditText) findViewById(R.id.teamNameEditText);
+        passwordTextBox = (EditText) findViewById(R.id.passwordEditText);
+
+        loginBtn = (Button) findViewById(R.id.loginBtn);
+        signUpBtn = (Button) findViewById(R.id.signUpBtn);
 
         MobSoftApplication.injector.inject(this);
     }
@@ -41,10 +58,28 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
 
     @Override
     public void signUpFinished(boolean success, String message) {
+        if (success) {
+
+        } else {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void logInFinished(boolean success, String message) {
+        if (success) {
+            Intent i = new Intent(this, StandingsActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
+    }
 
+    public void signUp(View view) {
+        mainPresenter.signUp(teamNameTextBox.getText().toString(), passwordTextBox.getText().toString());
+    }
+
+    public void login(View view) {
+        mainPresenter.logIn(teamNameTextBox.getText().toString(), passwordTextBox.getText().toString());
     }
 }

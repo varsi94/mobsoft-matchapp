@@ -3,6 +3,7 @@ package com.mobsoft.matchapp.repository;
 import android.content.Context;
 
 import com.mobsoft.matchapp.model.Match;
+import com.mobsoft.matchapp.model.StandingsItem;
 import com.mobsoft.matchapp.model.Team;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface Repository {
 
     void close();
 
-    List<Team> getStandings();
+    List<StandingsItem> getStandings();
 
     void addTeam(Team team);
 

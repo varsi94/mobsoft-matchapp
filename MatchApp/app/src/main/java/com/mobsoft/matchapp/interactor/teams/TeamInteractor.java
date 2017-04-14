@@ -52,7 +52,9 @@ public class TeamInteractor {
     public void signUp(String teamName, String password) {
         SignUpTeamEvent event = new SignUpTeamEvent();
         try {
-            repository.addTeam(new Team(0L, teamName, password));
+            Team t = new Team(0L, teamName, password);
+            repository.addTeam(t);
+            event.setContent(t);
             bus.post(event);
         } catch (Exception e) {
             event.setThrowable(e);

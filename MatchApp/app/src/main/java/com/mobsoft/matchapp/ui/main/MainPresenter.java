@@ -5,6 +5,7 @@ import android.util.Log;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.interactor.events.teams.GetStandingsEvent;
 import com.mobsoft.matchapp.interactor.events.teams.LoginTeamEvent;
+import com.mobsoft.matchapp.interactor.events.teams.SignUpTeamEvent;
 import com.mobsoft.matchapp.interactor.teams.TeamInteractor;
 import com.mobsoft.matchapp.model.Team;
 import com.mobsoft.matchapp.ui.Presenter;
@@ -21,28 +22,15 @@ import de.greenrobot.event.EventBus;
 
 public class MainPresenter extends Presenter<MainScreen> {
     @Inject
-    EventBus bus;
-
-    @Inject
     TeamInteractor teamInteractor;
-
-    @Inject
-    Executor executor;
 
     public MainPresenter() {
     }
 
     @Override
     public void attachScreen(MainScreen screen) {
-        super.attachScreen(screen);
         MobSoftApplication.injector.inject(this);
-        bus.register(this);
-    }
-
-    @Override
-    public void detachScreen() {
-        bus.unregister(this);
-        super.detachScreen();
+        super.attachScreen(screen);
     }
 
 
@@ -55,7 +43,7 @@ public class MainPresenter extends Presenter<MainScreen> {
         });
     }
 
-    public void onLoginTeamEvent(LoginTeamEvent event){
+    public void onEventMainThread(LoginTeamEvent event){
         if (screen == null) {
             return;
         }
@@ -77,7 +65,7 @@ public class MainPresenter extends Presenter<MainScreen> {
         });
     }
 
-    public void onSignUpTeamEvent(LoginTeamEvent event) {
+    public void onEventMainThread(SignUpTeamEvent event) {
         if (screen == null) {
             return;
         }
@@ -86,6 +74,7 @@ public class MainPresenter extends Presenter<MainScreen> {
             screen.signUpFinished(false, "Error during connecting to the server!");
             Log.e("SignUp", "Error signing up", event.getThrowable());
         } else {
+            Log.d("SignUp", "Sign up successsful logging in...");
             logIn(event.getContent().getName(), event.getContent().getPassword());
         }
     }

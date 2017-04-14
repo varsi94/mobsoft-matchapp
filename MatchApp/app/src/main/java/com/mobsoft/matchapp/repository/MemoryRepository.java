@@ -1,8 +1,10 @@
 package com.mobsoft.matchapp.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mobsoft.matchapp.model.Match;
+import com.mobsoft.matchapp.model.StandingsItem;
 import com.mobsoft.matchapp.model.Team;
 
 import java.util.ArrayList;
@@ -39,8 +41,13 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public List<Team> getStandings() {
-        return teams;
+    public List<StandingsItem> getStandings() {
+        Log.d("MemoryRepository", "GetStandings");
+        List<StandingsItem> result = new ArrayList<>();
+        for (Team t: teams) {
+            result.add(new StandingsItem(t.getId(), t.getName(), t.getPassword(), 6, 3));
+        }
+        return result;
     }
 
     @Override

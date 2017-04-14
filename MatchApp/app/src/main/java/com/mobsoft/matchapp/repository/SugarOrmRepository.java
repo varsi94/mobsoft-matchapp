@@ -3,6 +3,7 @@ package com.mobsoft.matchapp.repository;
 import android.content.Context;
 
 import com.mobsoft.matchapp.model.Match;
+import com.mobsoft.matchapp.model.StandingsItem;
 import com.mobsoft.matchapp.model.Team;
 import com.mobsoft.matchapp.repository.exceptions.NotFoundException;
 import com.orm.SugarContext;
@@ -22,8 +23,8 @@ public class SugarOrmRepository implements Repository {
     }
 
     @Override
-    public List<Team> getStandings() {
-        return SugarRecord.listAll(Team.class);
+    public List<StandingsItem> getStandings() {
+        throw new RuntimeException("Not implemented");
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
+import com.mobsoft.matchapp.model.StandingsItem;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class MatchListActivity extends AppCompatActivity implements MatchListScr
     protected void onStart() {
         super.onStart();
         presenter.attachScreen(this);
+        StandingsItem item = (StandingsItem) this.getIntent().getSerializableExtra("team");
+        System.out.println(item.getName());
     }
 
     @Override
