@@ -31,7 +31,7 @@ public class MemoryRepository implements Repository {
 
         Calendar c = new GregorianCalendar();
         c.set(2017, 5, 22, 20, 45, 0);
-        Match match = new Match(team1, team2, 1, 2, 0, 1, "Bogdánfy utca 11", c.getTime());
+        Match match = new Match(team1, team2, 1, 2, 0, 1, "Bogdánfy utca 11", c.getTime(), "");
         matches.add(match);
     }
 

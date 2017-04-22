@@ -18,11 +18,12 @@ public class Match extends SugarRecord {
     int awayTeamHalfTimeScore;
     String venue;
     Date matchDate;
+    String highlights;
 
     public Match() {
     }
 
-    public Match(Team homeTeam, Team awayTeam, int homeTeamScore, int awayTeamScore, int homeTeamHalfTimeScore, int awayTeamHalfTimeScore, String venue, Date matchDate) {
+    public Match(Team homeTeam, Team awayTeam, int homeTeamScore, int awayTeamScore, int homeTeamHalfTimeScore, int awayTeamHalfTimeScore, String venue, Date matchDate, String highlights) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeTeamScore = homeTeamScore;
@@ -31,6 +32,7 @@ public class Match extends SugarRecord {
         this.awayTeamHalfTimeScore = awayTeamHalfTimeScore;
         this.venue = venue;
         this.matchDate = matchDate;
+        this.highlights = highlights;
     }
 
     public Team getHomeTeam() {
