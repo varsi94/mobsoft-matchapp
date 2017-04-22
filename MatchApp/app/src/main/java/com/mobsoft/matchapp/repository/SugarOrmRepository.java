@@ -7,9 +7,13 @@ import com.mobsoft.matchapp.model.StandingsItem;
 import com.mobsoft.matchapp.model.Team;
 import com.mobsoft.matchapp.repository.exceptions.NotFoundException;
 import com.orm.SugarContext;
+import com.orm.SugarDb;
 import com.orm.SugarRecord;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class SugarOrmRepository implements Repository {
     @Override
@@ -22,19 +26,51 @@ public class SugarOrmRepository implements Repository {
         SugarContext.terminate();
     }
 
+    private int getPlayed(List<Match> matches, Team t) {
+        int counter = 0;
+        for (Match m : matches) {
+            if (Objects.equals(m.getHomeTeam().getId(), t.getId()) || Objects.equals(m.getAwayTeam().getId(), t.getId())){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    private int getPoints(List<Match> matches, Team t) {
+        int counter = 0;
+        for (Match m : matches) {
+            if (Objects.equals(m.getHomeTeam().getId(), t.getId()) && m.getHomeTeamScore() >= m.getAwayTeamScore()) {
+                counter += (m.getHomeTeamScore() == m.getAwayTeamScore()) ? 1 : 3;
+            } else if (Objects.equals(m.getAwayTeam().getId(), t.getId()) && m.getAwayTeamScore() >= m.getHomeTeamScore()) {
+                counter += (m.getHomeTeamScore() == m.getAwayTeamScore()) ? 1 : 3;
+            }
+        }
+        return counter;
+    }
+
     @Override
     public List<StandingsItem> getStandings() {
-        throw new RuntimeException("Not implemented");
+        List<Team> teams = Team.listAll(Team.class);
+        List<Match> matches = Match.listAll(Match.class);
+        List<StandingsItem> result = new ArrayList<>();
+        for (Team t : teams) {
+            result.add(new StandingsItem(t, getPlayed(matches, t), getPoints(matches, t)));
+        }
+        return result;
     }
 
     @Override
     public void addTeam(Team team) {
+        List<Team> teams  = Team.find(Team.class, "name = ?", team.getName());
+        if (teams.size() > 0) {
+            throw new RuntimeException("There is already a team with this name!");
+        }
         SugarRecord.saveInTx(team);
     }
 
     @Override
     public Team getTeam(String teamName, String password) {
-        List<Team> result = Team.find(Team.class, "teamName = ? AND password = ?", teamName, password);
+        List<Team> result = Team.find(Team.class, "name = ? AND password = ?", teamName, password);
         if (result.size() == 0) {
             return null;
         } else {
@@ -44,8 +80,7 @@ public class SugarOrmRepository implements Repository {
 
     @Override
     public List<Match> getMatchesForTeam(Team team) {
-        //TODO: may not working.
-        return Match.find(Match.class, "awayTeam = ? OR homeTeam = ?", team.getId().toString(), team.getId().toString());
+        return team.getMatches();
     }
 
     @Override

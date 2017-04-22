@@ -10,8 +10,8 @@ public class StandingsItem extends Team implements Serializable {
     private int point;
     private int played;
 
-    public StandingsItem(Long id, String name, String password, int point, int played) {
-        super(id, name, password);
+    public StandingsItem(Team t, int point, int played) {
+        super(t.getName(), t.getPassword(), t.isAdmin());
         this.point = point;
         this.played = played;
     }

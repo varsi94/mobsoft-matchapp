@@ -43,7 +43,7 @@ public class MainPresenter extends Presenter<MainScreen> {
         }
 
         if (event.getThrowable() != null) {
-            screen.logInFinished(false, "Error during connecting to the server!");
+            screen.logInFinished(false, "Error during logging in: " + event.getThrowable().getMessage() + "!");
             Log.e("LogIn", "Error logging in", event.getThrowable());
         } else {
             screen.logInFinished(event.getContent() != null, "Invalid username or password!");
@@ -65,7 +65,7 @@ public class MainPresenter extends Presenter<MainScreen> {
         }
 
         if (event.getThrowable() != null) {
-            screen.signUpFinished(false, "Error during connecting to the server!");
+            screen.signUpFinished(false, "Error during signing up: " + event.getThrowable().getMessage() + "!");
             Log.e("SignUp", "Error signing up", event.getThrowable());
         } else {
             Log.d("SignUp", "Sign up successsful logging in...");

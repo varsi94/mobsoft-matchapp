@@ -1,7 +1,9 @@
 package com.mobsoft.matchapp.interactor;
 
 import com.mobsoft.matchapp.MobSoftApplication;
+import com.mobsoft.matchapp.interactor.events.matches.AddMatchEvent;
 import com.mobsoft.matchapp.interactor.events.matches.GetMatchesEvent;
+import com.mobsoft.matchapp.interactor.events.matches.UpdateMatchEvent;
 import com.mobsoft.matchapp.model.Match;
 import com.mobsoft.matchapp.model.Team;
 import com.mobsoft.matchapp.repository.Repository;
@@ -32,6 +34,30 @@ public class MatchInteractor {
         try {
             List<Match> matches = repository.getMatchesForTeam(team);
             event.setContent(matches);
+            bus.post(event);
+        } catch (Exception e) {
+            event.setThrowable(e);
+            bus.post(event);
+        }
+    }
+
+    public void addMatch(Match m) {
+        AddMatchEvent event = new AddMatchEvent();
+        try {
+            repository.addMatch(m);
+            event.setContent(m);
+            bus.post(event);
+        } catch (Exception e) {
+            event.setThrowable(e);
+            bus.post(event);
+        }
+    }
+
+    public void updateMatch(Match m) {
+        UpdateMatchEvent event = new UpdateMatchEvent();
+        try{
+            repository.updateMatch(m);
+            event.setContent(m);
             bus.post(event);
         } catch (Exception e) {
             event.setThrowable(e);

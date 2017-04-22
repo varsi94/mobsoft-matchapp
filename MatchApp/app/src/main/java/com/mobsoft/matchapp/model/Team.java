@@ -4,32 +4,24 @@ import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by mobsoft on 2017. 04. 10..
  */
 
-@Table
 public class Team extends SugarRecord implements Serializable {
-    private Long id = null;
-    private String name;
-    private String password;
+    String name;
+    String password;
+    boolean isAdmin;
 
     public Team() {
     }
 
-    public Team(Long id, String name, String password) {
-        this.id = id;
+    public Team(String name, String password, boolean isAdmin) {
         this.name = name;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.isAdmin = isAdmin;
     }
 
     public String getName() {
@@ -46,5 +38,17 @@ public class Team extends SugarRecord implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public List<Match> getMatches() {
+        return Match.find(Match.class, "home_Team = ? OR away_Team = ?", String.valueOf(getId()), String.valueOf(getId()));
     }
 }

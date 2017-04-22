@@ -24,14 +24,14 @@ public class MemoryRepository implements Repository {
         teams = new ArrayList<>();
         matches = new ArrayList<>();
 
-        Team team1 = new Team(1L, "team1", "123456");
-        Team team2 = new Team(2L, "team2", "123456");
+        Team team1 = new Team("team1", "123456", true);
+        Team team2 = new Team("team2", "123456", false);
         teams.add(team1);
         teams.add(team2);
 
         Calendar c = new GregorianCalendar();
         c.set(2017, 5, 22, 20, 45, 0);
-        Match match = new Match(1L, team1, team2, 1, 2, 0, 1, "Bogdánfy utca 11", c.getTime());
+        Match match = new Match(team1, team2, 1, 2, 0, 1, "Bogdánfy utca 11", c.getTime());
         matches.add(match);
     }
 
@@ -45,7 +45,7 @@ public class MemoryRepository implements Repository {
         Log.d("MemoryRepository", "GetStandings");
         List<StandingsItem> result = new ArrayList<>();
         for (Team t: teams) {
-            result.add(new StandingsItem(t.getId(), t.getName(), t.getPassword(), 6, 3));
+            result.add(new StandingsItem(t, 6, 3));
         }
         return result;
     }
