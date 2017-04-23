@@ -1,5 +1,7 @@
 package com.mobsoft.matchapp.ui.matchlist;
 
+import com.mobsoft.matchapp.model.Match;
+
 import java.util.List;
 
 /**
@@ -7,5 +9,7 @@ import java.util.List;
  */
 
 public interface MatchListScreen {
-    void matchesLoaded(List<String> matches);
+    void matchesLoaded(List<Match> matches);
+
+    void matchLoadFailed(String message);
 }

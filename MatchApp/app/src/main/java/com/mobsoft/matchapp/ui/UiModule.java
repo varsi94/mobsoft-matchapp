@@ -8,10 +8,14 @@ import com.mobsoft.matchapp.ui.main.MainPresenter;
 import com.mobsoft.matchapp.ui.matchlist.MatchListPresenter;
 import com.mobsoft.matchapp.ui.standings.StandingsPresenter;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by mobsoft on 2017. 03. 27..
@@ -58,5 +62,17 @@ public class UiModule {
     @Singleton
     public DetailsPresenter provideDetailsPresenter() {
         return new DetailsPresenter();
+    }
+
+    @Provides
+    @Singleton
+    public EventBus provideEventBus(){
+        return EventBus.getDefault();
+    }
+
+    @Provides
+    @Singleton
+    public Executor provideExecutor() {
+        return Executors.newFixedThreadPool(1);
     }
 }

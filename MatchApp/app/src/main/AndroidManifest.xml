@@ -20,6 +20,10 @@
         <activity android:name="com.mobsoft.matchapp.ui.details.DetailsActivity" />
         <activity android:name="com.mobsoft.matchapp.ui.editor.EditorActivity" />
         <activity android:name="com.mobsoft.matchapp.ui.matchlist.MatchListActivity"></activity>
+        <meta-data android:name="DATABASE" android:value="mobsoftlab.db"/>
+        <meta-data android:name="VERSION" android:value="4" />
+        <meta-data android:name="QUERY_LOG" android:value="true"/>
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.mobsoft.matchapp.model"/>
     </application>
 
 </manifest>
