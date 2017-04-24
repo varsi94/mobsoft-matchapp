@@ -1,0 +1,225 @@
+swagger: '2.0'
+
+info:
+  version: "1.0.0"
+  title: Match Application API
+
+tags:
+  -
+    name: users
+    description: Api methods for handling users.
+  -
+    name: teams
+    description: Api methods with response containing teams.
+  -
+    name: matches
+    description: Api methods with response containing matches.
+
+definitions:
+  team:
+    type: object
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      isAdmin:
+        type: boolean
+    required:
+      -
+        name
+      -
+        password
+    additionalProperties: false
+  standingsItem:
+    type: object
+    properties:
+      name:
+        type: string
+      played:
+        type: number
+        format: int
+      points:
+        type: number
+        format: int
+  match:
+    type: object
+    properties:
+      homeTeam:
+        type: object
+        properties:
+          id:
+            type: number
+            format: long
+          name:
+            type: string
+      awayTeam:
+        type: object
+        properties:
+          id:
+            type: number
+            format: long
+          name:
+            type: string
+      homeTeamScore:
+        type: number
+        format: int
+      awayTeamScore:
+        type: number
+        format: int
+      homeTeamHalfTimeScore:
+        type: number
+        format: int
+      awayTeamHalfTimeScore:
+        type: number
+        format: int
+      venue:
+        type: string
+      matchDate:
+        type: string
+        format: date-time
+      highlights:
+        type: string
+
+
+paths:
+  /login:
+    post:
+      tags:
+        - users
+      description: |
+        Tries to log in the user
+      parameters:
+        -
+          name: team
+          in: body
+          description: The team info as JSON.
+          required: true
+          schema:
+            $ref: '#/definitions/team'
+      responses:
+        200:
+          description: User credentials are valid
+          schema:
+            type: number
+            format: int
+        404:
+          description: User credentials are invalid
+  /signup:
+    post:
+      tags:
+        - users
+      description: |
+        Tries to sign up a user.
+      parameters:
+        -
+          name: team
+          in: body
+          description: The team info as JSON.
+          required: true
+          schema:
+            $ref: "#/definitions/team"
+      responses:
+        200:
+          description: Sign up was successful.
+        400:
+          description: Sign up was failed, duplicated team names.
+  /standings:
+    get:
+      tags:
+        - teams
+      description: |
+        Gets the current standings table for the league.
+      responses:
+        200:
+          description: The list of the teams in order, with additional info (played, points).
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/standingsItem"
+  /teams/{teamId}/matches:
+    get:
+      tags:
+        - matches
+      description: |
+        Gets the matches for the given Team Id.
+      parameters:
+        -
+          name: teamId
+          in: path
+          description: The unique identifier of the team.
+          required: true
+          type: number
+          format: long
+      responses:
+        200:
+          description: The list of the matches.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/match"
+  /matches:
+    post:
+      tags:
+        - matches
+      description: |
+        Adds a new match to the database.
+      parameters:
+        -
+          name: match
+          in: body
+          description: The match as a JSON object.
+          required: true
+          schema:
+            $ref: "#/definitions/match"
+        -
+          name: userId
+          in: header
+          description: The id of the user who wants to create the match.
+          required: true
+          type: number
+          format: int
+      responses:
+        200:
+          description: Match successfully added to the db.
+        403:
+          description: Forbidden - user has no right to create a match.
+        404:
+          description: Not found - at least one of the teams are missing.
+  /matches/{matchId}:
+    put:
+      tags:
+        - matches
+      description: |
+        Updates a match in the database.
+      parameters:
+        -
+          name: matchId
+          in: path
+          description: The unique identifier of the match.
+          required: true
+          type: number
+          format: int
+        -
+          name: match
+          in: body
+          description: The match as a JSON object
+          required: true
+          schema:
+            $ref: "#/definitions/match"
+        -
+          name: userId
+          in: header
+          description: The id of the user who wants to update the match.
+          required: true
+          type: number
+          format: int
+      responses:
+        200:
+          description: Match successfully updated.
+        400:
+          description: Bad request - at least one of the teams are missing.
+        403:
+          description: Forbidden - user has no right to create a match.
+        404:
+          description: Not found - the match to be updated is not found in the database.

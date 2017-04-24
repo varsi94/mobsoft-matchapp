@@ -52,6 +52,11 @@ public class MemoryRepository implements Repository {
 
     @Override
     public void addTeam(Team team) {
+        for (Team t : teams) {
+            if (Objects.equals(t.getName(), team.getName())) {
+                throw new RuntimeException("There is already a team with this name!");
+            }
+        }
         teams.add(team);
     }
 
