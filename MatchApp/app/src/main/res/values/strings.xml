@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MatchApp</string>
+    <string name="add_match">Add match</string>
 </resources>

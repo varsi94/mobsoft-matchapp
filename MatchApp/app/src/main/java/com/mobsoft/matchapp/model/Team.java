@@ -51,4 +51,25 @@ public class Team extends SugarRecord implements Serializable {
     public List<Match> getMatches() {
         return Match.find(Match.class, "home_Team = ? OR away_Team = ?", String.valueOf(getId()), String.valueOf(getId()));
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Team team = (Team) o;
+
+        return name.equals(team.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

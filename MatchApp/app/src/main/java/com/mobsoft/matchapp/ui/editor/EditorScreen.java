@@ -1,5 +1,7 @@
 package com.mobsoft.matchapp.ui.editor;
 
+import com.mobsoft.matchapp.model.Team;
+
 import java.util.List;
 
 /**
@@ -7,7 +9,9 @@ import java.util.List;
  */
 
 public interface EditorScreen {
-    void matchLoaded(String matchDetails);
+    void teamsLoaded(List<Team> teams);
 
-    void loadTeams(List<String> teams);
+    void showMessage(String msg);
+
+    void matchSaved();
 }

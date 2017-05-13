@@ -11,7 +11,9 @@ import com.orm.SugarDb;
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,8 +56,14 @@ public class SugarOrmRepository implements Repository {
         List<Match> matches = Match.listAll(Match.class);
         List<StandingsItem> result = new ArrayList<>();
         for (Team t : teams) {
-            result.add(new StandingsItem(t, getPlayed(matches, t), getPoints(matches, t)));
+            result.add(new StandingsItem(t, getPoints(matches, t), getPlayed(matches, t)));
         }
+        Collections.sort(result, new Comparator<StandingsItem>() {
+            @Override
+            public int compare(StandingsItem o1, StandingsItem o2) {
+                return o2.getPoint() - o1.getPoint();
+            }
+        });
         return result;
     }
 
@@ -85,7 +93,7 @@ public class SugarOrmRepository implements Repository {
 
     @Override
     public void addMatch(Match match) {
-        SugarRecord.saveInTx(match);
+        SugarRecord.save(match);
     }
 
     @Override
@@ -96,6 +104,11 @@ public class SugarOrmRepository implements Repository {
         }
         inDb.update(match);
         match.save();
+    }
+
+    @Override
+    public List<Team> getTeams() {
+        return Team.listAll(Team.class);
     }
 
     @Override

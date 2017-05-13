@@ -98,6 +98,11 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    @Override
     public boolean isInDb(Match match) {
         for (Match m : matches) {
             if (m == match) {
