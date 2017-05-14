@@ -14,6 +14,8 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 /**
  * Created by varsi on 2017. 04. 14..
  */
@@ -43,6 +45,9 @@ public class TeamInteractor {
     public void login(String userName, String password) {
         LoginTeamEvent event = new LoginTeamEvent();
         try {
+            if (isNullOrEmpty(userName) && isNullOrEmpty(password)) {
+                event.setAnonim(true);
+            }
             Team t = repository.getTeam(userName, password);
             event.setContent(t);
             bus.post(event);
@@ -56,6 +61,9 @@ public class TeamInteractor {
         SignUpTeamEvent event = new SignUpTeamEvent();
         try {
             Team t = new Team(teamName, password, false);
+            if ("admin".equals(teamName.toLowerCase())) {
+                t.setAdmin(true);
+            }
             repository.addTeam(t);
             event.setContent(t);
             bus.post(event);

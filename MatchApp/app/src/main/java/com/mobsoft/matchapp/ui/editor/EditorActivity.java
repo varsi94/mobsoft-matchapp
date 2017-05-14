@@ -129,6 +129,22 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         }
         venue.setText(match.getVenue());
         highlights.setText(match.getHighlights());
+
+        EditMode editMode = editorPresenter.getEditMode();
+        if (editMode == EditMode.Highlights) {
+            homeScore.setEnabled(false);
+            awayScore.setEnabled(false);
+            homeTeamSpinner.setEnabled(false);
+            homeHalfTimeScore.setEnabled(false);
+            awayTeamSpinner.setEnabled(false);
+            awayHalfTimeScore.setEnabled(false);
+            venue.setEnabled(false);
+            kickOffTime.setEnabled(false);
+            kickOffDate.setEnabled(false);
+        } else if (editMode == EditMode.NewMatch && !editorPresenter.isAdmin()) {
+            homeTeamSpinner.setSelection(adapter.getPosition(editorPresenter.getLoggedInTeam()));
+            homeTeamSpinner.setEnabled(false);
+        }
     }
 
     @Override

@@ -56,6 +56,9 @@ public class SugarOrmRepository implements Repository {
         List<Match> matches = Match.listAll(Match.class);
         List<StandingsItem> result = new ArrayList<>();
         for (Team t : teams) {
+            if ("admin".equals(t.getName().toLowerCase())) {
+                continue;
+            }
             result.add(new StandingsItem(t, getPoints(matches, t), getPlayed(matches, t)));
         }
         Collections.sort(result, new Comparator<StandingsItem>() {
@@ -108,7 +111,7 @@ public class SugarOrmRepository implements Repository {
 
     @Override
     public List<Team> getTeams() {
-        return Team.listAll(Team.class);
+        return Team.find(Team.class, "name != ?", "admin");
     }
 
     @Override

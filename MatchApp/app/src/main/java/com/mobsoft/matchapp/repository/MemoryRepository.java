@@ -24,10 +24,12 @@ public class MemoryRepository implements Repository {
         teams = new ArrayList<>();
         matches = new ArrayList<>();
 
-        Team team1 = new Team("team1", "123456", true);
+        Team team1 = new Team("team1", "123456", false);
         Team team2 = new Team("team2", "123456", false);
+        Team admin = new Team("admin", "123", true);
         teams.add(team1);
         teams.add(team2);
+        teams.add(admin);
 
         Calendar c = new GregorianCalendar();
         c.set(2017, 5, 22, 20, 45, 0);
@@ -45,6 +47,9 @@ public class MemoryRepository implements Repository {
         Log.d("MemoryRepository", "GetStandings");
         List<StandingsItem> result = new ArrayList<>();
         for (Team t: teams) {
+            if (t.getName().equals("admin")) {
+                continue;
+            }
             result.add(new StandingsItem(t, 6, 3));
         }
         return result;
@@ -99,7 +104,14 @@ public class MemoryRepository implements Repository {
 
     @Override
     public List<Team> getTeams() {
-        return teams;
+        List<Team> result = new ArrayList<>();
+        for (Team t : teams) {
+            if (t.getName().equals("admin")) {
+                continue;
+            }
+            result.add(t);
+        }
+        return result;
     }
 
     @Override

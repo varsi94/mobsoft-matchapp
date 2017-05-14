@@ -74,11 +74,15 @@ public class StandingsActivity extends AppCompatActivity implements StandingsScr
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.standings_menu, menu);
-        addMatch = menu.findItem(R.id.addMatch);
-        addMatch.setOnMenuItemClickListener(this);
-        return true;
+        if (presenter.canAddMatch()) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.standings_menu, menu);
+            addMatch = menu.findItem(R.id.addMatch);
+            addMatch.setOnMenuItemClickListener(this);
+            return true;
+        } else {
+            return super.onCreateOptionsMenu(menu);
+        }
     }
 
     @Override

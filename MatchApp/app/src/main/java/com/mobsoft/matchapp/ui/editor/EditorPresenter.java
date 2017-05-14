@@ -11,6 +11,8 @@ import com.mobsoft.matchapp.interactor.events.matches.UpdateMatchEvent;
 import com.mobsoft.matchapp.interactor.events.teams.GetStandingsEvent;
 import com.mobsoft.matchapp.interactor.events.teams.GetTeamsEvent;
 import com.mobsoft.matchapp.model.Match;
+import com.mobsoft.matchapp.model.Team;
+import com.mobsoft.matchapp.providers.LoggedInProvider;
 import com.mobsoft.matchapp.ui.Presenter;
 
 import javax.inject.Inject;
@@ -25,6 +27,9 @@ public class EditorPresenter extends Presenter<EditorScreen> {
 
     @Inject
     MatchInteractor matchInteractor;
+
+    @Inject
+    LoggedInProvider loggedInProvider;
 
     private Match currentMatch;
     private boolean isNew;
@@ -89,5 +94,27 @@ public class EditorPresenter extends Presenter<EditorScreen> {
         this.currentMatch = currentMatch;
         this.isNew = isNew;
         screen.matchLoaded(currentMatch);
+    }
+
+    public EditMode getEditMode() {
+        if (isNew && isAdmin()) {
+            return EditMode.All;
+        } else if (isNew) {
+            return EditMode.NewMatch;
+        }
+
+        if (isAdmin()) {
+            return EditMode.All;
+        } else {
+            return EditMode.Highlights;
+        }
+    }
+
+    public boolean isAdmin() {
+        return loggedInProvider.getLoggedInTeam().isAdmin();
+    }
+
+    public Team getLoggedInTeam() {
+        return loggedInProvider.getLoggedInTeam();
     }
 }

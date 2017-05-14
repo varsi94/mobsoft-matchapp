@@ -73,6 +73,9 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen,
         inflater.inflate(R.menu.match_details_menu, menu);
         editMatch = menu.findItem(R.id.editMatch);
         editMatch.setOnMenuItemClickListener(this);
+        if (!presenter.canEdit()) {
+            editMatch.setVisible(false);
+        }
         return true;
     }
 

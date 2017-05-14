@@ -5,6 +5,7 @@ import android.util.Log;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.interactor.TeamInteractor;
 import com.mobsoft.matchapp.interactor.events.teams.GetStandingsEvent;
+import com.mobsoft.matchapp.providers.LoggedInProvider;
 import com.mobsoft.matchapp.ui.Presenter;
 
 import javax.inject.Inject;
@@ -17,14 +18,8 @@ public class StandingsPresenter extends Presenter<StandingsScreen> {
     @Inject
     TeamInteractor teamInteractor;
 
-    public void screenLoaded() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                teamInteractor.getStandings();
-            }
-        });
-    }
+    @Inject
+    LoggedInProvider loggedInProvider;
 
     @Override
     public void attachScreen(StandingsScreen screen) {
@@ -53,5 +48,9 @@ public class StandingsPresenter extends Presenter<StandingsScreen> {
         } else {
             screen.updateStandings(event.getContent());
         }
+    }
+
+    public boolean canAddMatch() {
+        return loggedInProvider.getLoggedInTeam() != null;
     }
 }

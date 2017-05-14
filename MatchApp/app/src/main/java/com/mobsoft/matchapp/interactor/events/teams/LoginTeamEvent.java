@@ -8,4 +8,13 @@ import com.mobsoft.matchapp.model.Team;
  */
 
 public class LoginTeamEvent extends BaseEvent<Team> {
+    private boolean isAnonim;
+
+    public boolean isAnonim() {
+        return isAnonim;
+    }
+
+    public void setAnonim(boolean anonim) {
+        isAnonim = anonim;
+    }
 }

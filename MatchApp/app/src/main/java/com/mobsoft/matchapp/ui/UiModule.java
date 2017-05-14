@@ -2,6 +2,8 @@ package com.mobsoft.matchapp.ui;
 
 import android.content.Context;
 
+import com.mobsoft.matchapp.providers.LoggedInProvider;
+import com.mobsoft.matchapp.providers.LoggedInProviderImpl;
 import com.mobsoft.matchapp.ui.details.DetailsPresenter;
 import com.mobsoft.matchapp.ui.editor.EditorPresenter;
 import com.mobsoft.matchapp.ui.main.MainPresenter;
@@ -74,5 +76,11 @@ public class UiModule {
     @Singleton
     public Executor provideExecutor() {
         return Executors.newFixedThreadPool(1);
+    }
+
+    @Provides
+    @Singleton
+    public LoggedInProvider provideLoggedInProvider(){
+        return new LoggedInProviderImpl();
     }
 }

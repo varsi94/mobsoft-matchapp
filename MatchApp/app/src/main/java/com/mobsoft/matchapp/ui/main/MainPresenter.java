@@ -6,9 +6,12 @@ import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.interactor.TeamInteractor;
 import com.mobsoft.matchapp.interactor.events.teams.LoginTeamEvent;
 import com.mobsoft.matchapp.interactor.events.teams.SignUpTeamEvent;
+import com.mobsoft.matchapp.providers.LoggedInProvider;
 import com.mobsoft.matchapp.ui.Presenter;
 
 import javax.inject.Inject;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * Created by mobsoft on 2017. 03. 27..
@@ -17,6 +20,9 @@ import javax.inject.Inject;
 public class MainPresenter extends Presenter<MainScreen> {
     @Inject
     TeamInteractor teamInteractor;
+
+    @Inject
+    LoggedInProvider loggedInProvider;
 
     public MainPresenter() {
     }
@@ -46,11 +52,20 @@ public class MainPresenter extends Presenter<MainScreen> {
             screen.logInFinished(false, "Error during logging in: " + event.getThrowable().getMessage() + "!");
             Log.e("LogIn", "Error logging in", event.getThrowable());
         } else {
-            screen.logInFinished(event.getContent() != null, "Invalid username or password!");
+            if (event.isAnonim()) {
+                loggedInProvider.setLoggedInTeam(null);
+                screen.logInFinished(true, "Invalid username or password!");
+            } else {
+                loggedInProvider.setLoggedInTeam(event.getContent());
+                screen.logInFinished(event.getContent() != null, "Invalid username or password!");
+            }
         }
     }
 
     public void signUp(final String teamName, final String password) {
+        if (isNullOrEmpty(teamName) || isNullOrEmpty(password)) {
+            screen.signUpFinished(false, "Team name and password fields are required!");
+        }
         executor.execute(new Runnable() {
             @Override
             public void run() {
