@@ -25,6 +25,8 @@ public interface Repository {
 
     void updateMatch(Match match);
 
+    List<Team> getTeams();
+
     boolean isInDb(Match match);
 
     boolean isInDb(Team team);

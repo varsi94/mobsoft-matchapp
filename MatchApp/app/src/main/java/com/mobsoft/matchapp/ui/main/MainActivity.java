@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
     private EditText teamNameTextBox;
     private EditText passwordTextBox;
 
-    private Button loginBtn;
-    private Button signUpBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +29,6 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
 
         teamNameTextBox = (EditText) findViewById(R.id.teamNameEditText);
         passwordTextBox = (EditText) findViewById(R.id.passwordEditText);
-
-        loginBtn = (Button) findViewById(R.id.loginBtn);
-        signUpBtn = (Button) findViewById(R.id.signUpBtn);
-
         MobSoftApplication.injector.inject(this);
     }
 
@@ -58,9 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
 
     @Override
     public void signUpFinished(boolean success, String message) {
-        if (success) {
-
-        } else {
+        if (!success) {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
     }

@@ -11,11 +11,13 @@ import com.orm.SugarDb;
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class SugarOrmRepository implements Repository {
+public class SugarOrmRepository extends RepositoryBase {
     @Override
     public void open(Context context) {
         SugarContext.init(context);
@@ -26,36 +28,23 @@ public class SugarOrmRepository implements Repository {
         SugarContext.terminate();
     }
 
-    private int getPlayed(List<Match> matches, Team t) {
-        int counter = 0;
-        for (Match m : matches) {
-            if (Objects.equals(m.getHomeTeam().getId(), t.getId()) || Objects.equals(m.getAwayTeam().getId(), t.getId())){
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-    private int getPoints(List<Match> matches, Team t) {
-        int counter = 0;
-        for (Match m : matches) {
-            if (Objects.equals(m.getHomeTeam().getId(), t.getId()) && m.getHomeTeamScore() >= m.getAwayTeamScore()) {
-                counter += (m.getHomeTeamScore() == m.getAwayTeamScore()) ? 1 : 3;
-            } else if (Objects.equals(m.getAwayTeam().getId(), t.getId()) && m.getAwayTeamScore() >= m.getHomeTeamScore()) {
-                counter += (m.getHomeTeamScore() == m.getAwayTeamScore()) ? 1 : 3;
-            }
-        }
-        return counter;
-    }
-
     @Override
     public List<StandingsItem> getStandings() {
         List<Team> teams = Team.listAll(Team.class);
         List<Match> matches = Match.listAll(Match.class);
         List<StandingsItem> result = new ArrayList<>();
         for (Team t : teams) {
-            result.add(new StandingsItem(t, getPlayed(matches, t), getPoints(matches, t)));
+            if ("admin".equals(t.getName().toLowerCase())) {
+                continue;
+            }
+            result.add(new StandingsItem(t, getPoints(matches, t), getPlayed(matches, t)));
         }
+        Collections.sort(result, new Comparator<StandingsItem>() {
+            @Override
+            public int compare(StandingsItem o1, StandingsItem o2) {
+                return o2.getPoint() - o1.getPoint();
+            }
+        });
         return result;
     }
 
@@ -85,7 +74,7 @@ public class SugarOrmRepository implements Repository {
 
     @Override
     public void addMatch(Match match) {
-        SugarRecord.saveInTx(match);
+        SugarRecord.save(match);
     }
 
     @Override
@@ -96,6 +85,11 @@ public class SugarOrmRepository implements Repository {
         }
         inDb.update(match);
         match.save();
+    }
+
+    @Override
+    public List<Team> getTeams() {
+        return Team.find(Team.class, "name != ?", "admin");
     }
 
     @Override

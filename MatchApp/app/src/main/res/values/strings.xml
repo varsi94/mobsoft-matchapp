@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MatchApp</string>
+    <string name="app_name">Football League Manager</string>
+    <string name="add_match">Add match</string>
 </resources>

@@ -3,13 +3,14 @@ package com.mobsoft.matchapp.model;
 import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by mobsoft on 2017. 04. 10..
  */
 
-public class Match extends SugarRecord {
+public class Match extends SugarRecord implements Serializable {
     Team homeTeam;
     Team awayTeam;
     int homeTeamScore;
@@ -99,6 +100,14 @@ public class Match extends SugarRecord {
         this.matchDate = matchDate;
     }
 
+    public String getHighlights() {
+        return highlights;
+    }
+
+    public void setHighlights(String highlights) {
+        this.highlights = highlights;
+    }
+
     public void update(Match other) {
         homeTeam = other.homeTeam;
         awayTeam = other.awayTeam;
@@ -108,5 +117,6 @@ public class Match extends SugarRecord {
         awayTeamHalfTimeScore = other.awayTeamHalfTimeScore;
         venue = other.venue;
         matchDate = other.matchDate;
+        highlights = other.highlights;
     }
 }
