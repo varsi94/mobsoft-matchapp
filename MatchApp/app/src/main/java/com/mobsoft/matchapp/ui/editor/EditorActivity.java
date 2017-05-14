@@ -78,20 +78,38 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
     protected void onStart() {
         super.onStart();
         editorPresenter.attachScreen(this);
+        editorPresenter.loadTeams();
+    }
+
+    @Override
+    public void teamsLoaded(List<Team> teams) {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, teams);
+        homeTeamSpinner.setAdapter(adapter);
+        awayTeamSpinner.setAdapter(adapter);
 
         Match m = (Match) getIntent().getSerializableExtra("match");
-        Long matchId = (Long)getIntent().getSerializableExtra("matchId");
-        m.setId(matchId);
         boolean isNew = false;
         if (m == null) {
             m = new Match();
             isNew = true;
         }
+        Long matchId = (Long)getIntent().getSerializableExtra("matchId");
+        m.setId(matchId);
         editorPresenter.setCurrentMatch(m, isNew);
-        editorPresenter.loadTeams();
     }
 
-    private void applyMatch(Match match) {
+    @Override
+    public void showMessage(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void matchSaved() {
+        finish();
+    }
+
+    @Override
+    public void matchLoaded(Match match) {
         if (match.getHomeTeam() != null) {
             int pos = adapter.getPosition(match.getHomeTeam());
             homeTeamSpinner.setSelection(pos);
@@ -111,24 +129,6 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         }
         venue.setText(match.getVenue());
         highlights.setText(match.getHighlights());
-    }
-
-    @Override
-    public void teamsLoaded(List<Team> teams) {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, teams);
-        homeTeamSpinner.setAdapter(adapter);
-        awayTeamSpinner.setAdapter(adapter);
-        applyMatch(editorPresenter.getCurrentMatch());
-    }
-
-    @Override
-    public void showMessage(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void matchSaved() {
-        finish();
     }
 
     @Override

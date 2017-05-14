@@ -16,6 +16,7 @@ public class DetailsPresenter extends Presenter<DetailsScreen> {
 
     public void setMatch(Match match) {
         this.match = match;
+        screen.detailsLoaded(match);
     }
 
     @Override

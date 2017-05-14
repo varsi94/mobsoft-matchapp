@@ -34,4 +34,9 @@ public class DateHelper {
             throw new DateParseException();
         }
     }
+
+    public static String formatDate(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyy.MM.dd. HH:mm");
+        return df.format(date);
+    }
 }

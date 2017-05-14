@@ -85,6 +85,7 @@ public class StandingsActivity extends AppCompatActivity implements StandingsScr
     public boolean onMenuItemClick(MenuItem item) {
         Intent i = new Intent(this, EditorActivity.class);
         i.putExtra("match", (Serializable)null);
+        i.putExtra("matchId", (Serializable)null);
         this.startActivity(i);
         return false;
     }

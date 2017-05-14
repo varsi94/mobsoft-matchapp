@@ -88,5 +88,6 @@ public class EditorPresenter extends Presenter<EditorScreen> {
     public void setCurrentMatch(Match currentMatch, boolean isNew) {
         this.currentMatch = currentMatch;
         this.isNew = isNew;
+        screen.matchLoaded(currentMatch);
     }
 }
