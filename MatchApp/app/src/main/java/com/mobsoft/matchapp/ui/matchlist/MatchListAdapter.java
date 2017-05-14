@@ -70,4 +70,8 @@ public class MatchListAdapter extends BaseAdapter {
         viewHolder.awayScoreTV.setText(m.getAwayTeamScore() + "");
         return convertView;
     }
+
+    public Match getMatch(int position) {
+        return matches.get(position);
+    }
 }

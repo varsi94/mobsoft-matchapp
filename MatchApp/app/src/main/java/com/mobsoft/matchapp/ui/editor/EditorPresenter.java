@@ -1,5 +1,6 @@
 package com.mobsoft.matchapp.ui.editor;
 
+import android.provider.Settings;
 import android.util.Log;
 
 import com.mobsoft.matchapp.MobSoftApplication;

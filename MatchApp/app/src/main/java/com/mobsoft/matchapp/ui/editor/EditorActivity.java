@@ -15,11 +15,21 @@ import com.mobsoft.matchapp.interactor.TeamInteractor;
 import com.mobsoft.matchapp.matchapp.R;
 import com.mobsoft.matchapp.model.Match;
 import com.mobsoft.matchapp.model.Team;
+import com.mobsoft.matchapp.utils.DateHelper;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.mobsoft.matchapp.utils.DateHelper.getDate;
+import static com.mobsoft.matchapp.utils.DateHelper.getTime;
+import static com.mobsoft.matchapp.utils.DateHelper.parseDate;
 
 public class EditorActivity extends AppCompatActivity implements EditorScreen, View.OnClickListener {
     @Inject
@@ -70,6 +80,8 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         editorPresenter.attachScreen(this);
 
         Match m = (Match) getIntent().getSerializableExtra("match");
+        Long matchId = (Long)getIntent().getSerializableExtra("matchId");
+        m.setId(matchId);
         boolean isNew = false;
         if (m == null) {
             m = new Match();
@@ -92,7 +104,11 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         homeScore.setText(match.getHomeTeamScore() + "");
         awayScore.setText(match.getAwayTeamScore() + "");
         homeHalfTimeScore.setText(match.getHomeTeamHalfTimeScore() + "");
-        awayHalfTimeScore.setText(match.getAwayTeamScore() + "");
+        awayHalfTimeScore.setText(match.getAwayTeamHalfTimeScore() + "");
+        if (match.getMatchDate() != null) {
+            kickOffDate.setText(getDate(match.getMatchDate()));
+            kickOffTime.setText(getTime(match.getMatchDate()));
+        }
         venue.setText(match.getVenue());
         highlights.setText(match.getHighlights());
     }
@@ -118,6 +134,7 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
     @Override
     public void onClick(View v) {
         Match m = new Match();
+        m.setId(editorPresenter.getCurrentMatch().getId());
         m.setHomeTeam((Team)homeTeamSpinner.getSelectedItem());
         m.setAwayTeam((Team)awayTeamSpinner.getSelectedItem());
         m.setHomeTeamScore(Integer.parseInt(homeScore.getText().toString()));
@@ -126,6 +143,11 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         m.setAwayTeamHalfTimeScore(Integer.parseInt(awayHalfTimeScore.getText().toString()));
         m.setVenue(venue.getText().toString());
         m.setHighlights(highlights.getText().toString());
-        editorPresenter.saveMatchDetails(m);
+        try{
+            m.setMatchDate(parseDate(kickOffDate.getText().toString(), kickOffTime.getText().toString()));
+            editorPresenter.saveMatchDetails(m);
+        } catch (DateHelper.DateParseException e) {
+            Toast.makeText(this, "Invalid kickoff date format!", Toast.LENGTH_LONG).show();
+        }
     }
 }
