@@ -6,7 +6,10 @@ import com.mobsoft.matchapp.interactor.events.teams.GetTeamsEvent;
 import com.mobsoft.matchapp.interactor.events.teams.LoginTeamEvent;
 import com.mobsoft.matchapp.interactor.events.teams.SignUpTeamEvent;
 import com.mobsoft.matchapp.model.Team;
+import com.mobsoft.matchapp.network.api.TeamsApi;
+import com.mobsoft.matchapp.network.api.UsersApi;
 import com.mobsoft.matchapp.repository.Repository;
+import com.mobsoft.matchapp.utils.Mapper;
 
 import java.util.List;
 
@@ -26,6 +29,9 @@ public class TeamInteractor {
 
     @Inject
     EventBus bus;
+
+    @Inject
+    UsersApi usersApi;
 
     public TeamInteractor() {
         MobSoftApplication.injector.inject(this);
@@ -64,6 +70,7 @@ public class TeamInteractor {
             if ("admin".equals(teamName.toLowerCase())) {
                 t.setAdmin(true);
             }
+            usersApi.signupPost(Mapper.mapTeam(t)).execute().body();
             repository.addTeam(t);
             event.setContent(t);
             bus.post(event);

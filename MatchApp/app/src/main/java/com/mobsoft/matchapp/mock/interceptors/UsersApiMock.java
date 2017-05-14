@@ -1,6 +1,7 @@
 package com.mobsoft.matchapp.mock.interceptors;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.mobsoft.matchapp.network.NetworkConfig;
 import com.mobsoft.matchapp.network.model.Team;
@@ -27,17 +28,15 @@ public class UsersApiMock {
         int responseCode;
         Headers headers = request.headers();
 
-        MemoryRepository memoryRepository = new MemoryRepository();
-        memoryRepository.open(null);
         if (uri.getPath().equals(NetworkConfig.ENDPOINT_PREFIX + "login") && request.method().equals("POST")) {
             responseString = "1";
             responseCode = 200;
         }else if (uri.getPath().equals(NetworkConfig.ENDPOINT_PREFIX + "signup") && request.method().equals("POST")) {
             String requestStr = bodyToString(request);
             Team team = GsonHelper.getGson().fromJson(requestStr, Team.class);
+            Log.i("NETWORK", "Sign up with team: " + team.getName());
             responseString = "";
             try{
-                memoryRepository.addTeam(Mapper.mapTeam(team));
                 responseCode = 200;
             } catch (RuntimeException e) {
                 responseCode = 400;

@@ -83,6 +83,7 @@ public class MatchUnitTests {
         EditorScreen screen = mock(EditorScreen.class);
         presenter.attachScreen(screen);
         Match m = MemoryRepository.matches.get(0);
+        m.setId(1994L);
         m.setHomeTeamScore(5);
         m.setAwayTeamScore(0);
         Random r = new Random();

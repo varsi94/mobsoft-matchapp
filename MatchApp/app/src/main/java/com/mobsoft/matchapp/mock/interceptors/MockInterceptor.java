@@ -19,27 +19,31 @@ import static com.mobsoft.matchapp.mock.interceptors.MockHelper.makeResponse;
  */
 
 public class MockInterceptor implements Interceptor {
+    public MockInterceptor() {
+
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         return process(chain.request());
     }
 
-    public Response process(Request request) {
+    private Response process(Request request) {
         Uri uri = Uri.parse(request.url().toString());
 
-        Log.d("Test Http Client", "URL call: " + uri.toString());
+        Log.i("NETWORK", "URL call: " + uri.toString());
         Headers headers = request.headers();
 
 
-        if (uri.getPath().startsWith(NetworkConfig.ENDPOINT_PREFIX + "login") || uri.getPath().startsWith(NetworkConfig.ENDPOINT_PREFIX + "signup")) {
+        if (uri.getPath().startsWith(NetworkConfig.SERVICE_ENDPOINT + "login") || uri.getPath().startsWith(NetworkConfig.SERVICE_ENDPOINT + "signup")) {
             return UsersApiMock.process(request);
         }
 
-        if (uri.getPath().startsWith(NetworkConfig.ENDPOINT_PREFIX + "matches") || uri.getPath().startsWith(NetworkConfig.ENDPOINT_PREFIX + "teams")) {
+        if (uri.getPath().startsWith(NetworkConfig.SERVICE_ENDPOINT + "matches") || uri.getPath().startsWith(NetworkConfig.SERVICE_ENDPOINT + "teams")) {
             return MatchesApiMock.process(request);
         }
 
-        if (uri.getPath().startsWith(NetworkConfig.ENDPOINT_PREFIX + "standings")) {
+        if (uri.getPath().startsWith(NetworkConfig.SERVICE_ENDPOINT + "standings")) {
             return TeamsApiMock.process(request);
         }
 

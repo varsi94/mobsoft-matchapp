@@ -3,6 +3,7 @@ package com.mobsoft.matchapp;
 import com.mobsoft.matchapp.interactor.InteractorModule;
 import com.mobsoft.matchapp.interactor.MatchInteractor;
 import com.mobsoft.matchapp.interactor.TeamInteractor;
+import com.mobsoft.matchapp.mock.MockNetworkModule;
 import com.mobsoft.matchapp.repository.RepositoryModule;
 import com.mobsoft.matchapp.ui.UiModule;
 import com.mobsoft.matchapp.ui.details.DetailsActivity;
@@ -21,7 +22,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {UiModule.class, RepositoryModule.class, InteractorModule.class})
+@Component(modules = {UiModule.class, RepositoryModule.class, InteractorModule.class, MockNetworkModule.class})
 public interface MobSoftApplicationComponent {
     void inject(MainActivity mainActivity);
     void inject(StandingsActivity standingsActivity);
