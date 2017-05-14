@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class SugarOrmRepository implements Repository {
+public class SugarOrmRepository extends RepositoryBase {
     @Override
     public void open(Context context) {
         SugarContext.init(context);
@@ -26,28 +26,6 @@ public class SugarOrmRepository implements Repository {
     @Override
     public void close() {
         SugarContext.terminate();
-    }
-
-    private int getPlayed(List<Match> matches, Team t) {
-        int counter = 0;
-        for (Match m : matches) {
-            if (Objects.equals(m.getHomeTeam().getId(), t.getId()) || Objects.equals(m.getAwayTeam().getId(), t.getId())){
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-    private int getPoints(List<Match> matches, Team t) {
-        int counter = 0;
-        for (Match m : matches) {
-            if (Objects.equals(m.getHomeTeam().getId(), t.getId()) && m.getHomeTeamScore() >= m.getAwayTeamScore()) {
-                counter += (m.getHomeTeamScore() == m.getAwayTeamScore()) ? 1 : 3;
-            } else if (Objects.equals(m.getAwayTeam().getId(), t.getId()) && m.getAwayTeamScore() >= m.getHomeTeamScore()) {
-                counter += (m.getHomeTeamScore() == m.getAwayTeamScore()) ? 1 : 3;
-            }
-        }
-        return counter;
     }
 
     @Override

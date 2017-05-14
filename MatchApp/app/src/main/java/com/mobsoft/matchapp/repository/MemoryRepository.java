@@ -9,27 +9,34 @@ import com.mobsoft.matchapp.model.Team;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
-public class MemoryRepository implements Repository {
-    private static List<Team> teams;
-    private static List<Match> matches;
+public class MemoryRepository extends RepositoryBase {
+    public static List<Team> teams;
+    public static List<Match> matches;
 
     @Override
     public void open(Context context) {
-        System.out.print("opened!");
         teams = new ArrayList<>();
         matches = new ArrayList<>();
 
         Team team1 = new Team("team1", "123456", false);
+        team1.setId(1L);
         Team team2 = new Team("team2", "123456", false);
+        team2.setId(2L);
         Team admin = new Team("admin", "123", true);
+        admin.setId(3L);
+        Team team3 = new Team("team3", "123456", false);
+        team3.setId(4L);
         teams.add(team1);
         teams.add(team2);
         teams.add(admin);
+        teams.add(team3);
 
         Calendar c = new GregorianCalendar();
         c.set(2017, 5, 22, 20, 45, 0);
@@ -50,8 +57,14 @@ public class MemoryRepository implements Repository {
             if (t.getName().equals("admin")) {
                 continue;
             }
-            result.add(new StandingsItem(t, 6, 3));
+            result.add(new StandingsItem(t, getPoints(matches, t), getPlayed(matches, t)));
         }
+        Collections.sort(result, new Comparator<StandingsItem>() {
+            @Override
+            public int compare(StandingsItem o1, StandingsItem o2) {
+                return o2.getPoint() - o1.getPoint();
+            }
+        });
         return result;
     }
 
