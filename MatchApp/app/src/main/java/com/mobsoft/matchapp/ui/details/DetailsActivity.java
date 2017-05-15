@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.annotations.SerializedName;
 import com.mobsoft.matchapp.DaggerMobSoftApplicationComponent;
 import com.mobsoft.matchapp.MobSoftApplication;
@@ -36,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen,
     private TextView venue;
     private TextView kickoffDate;
     private TextView highlights;
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen,
         kickoffDate = (TextView)findViewById(R.id.kickoffDate);
         highlights = (TextView) findViewById(R.id.highlights);
         MobSoftApplication.injector.inject(this);
+
+        MobSoftApplication app = (MobSoftApplication)getApplication();
+        tracker = app.getDefaultTracker();
     }
 
     @Override
@@ -65,6 +71,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen,
         Long matchId = (Long) getIntent().getSerializableExtra("matchId");
         m.setId(matchId);
         presenter.setMatch(m);
+        tracker.setScreenName("Image~DetailsActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

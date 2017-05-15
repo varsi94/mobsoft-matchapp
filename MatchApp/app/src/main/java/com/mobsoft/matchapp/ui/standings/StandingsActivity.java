@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
 import com.mobsoft.matchapp.model.StandingsItem;
@@ -32,6 +34,7 @@ public class StandingsActivity extends AppCompatActivity implements StandingsScr
 
     private ListView listView;
     private MenuItem addMatch;
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,17 @@ public class StandingsActivity extends AppCompatActivity implements StandingsScr
         MobSoftApplication.injector.inject(this);
         listView = (ListView) findViewById(R.id.standings);
         listView.setOnItemClickListener(this);
+
+        MobSoftApplication app = (MobSoftApplication)getApplication();
+        tracker = app.getDefaultTracker();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         presenter.attachScreen(this);
+        tracker.setScreenName("Image~StandingsActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

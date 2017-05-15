@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.mobsoft.matchapp.DaggerMobSoftApplicationComponent;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
 
     private EditText teamNameTextBox;
     private EditText passwordTextBox;
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +36,17 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
         teamNameTextBox = (EditText) findViewById(R.id.teamNameEditText);
         passwordTextBox = (EditText) findViewById(R.id.passwordEditText);
         MobSoftApplication.injector.inject(this);
+
+        MobSoftApplication app = (MobSoftApplication)getApplication();
+        tracker = app.getDefaultTracker();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mainPresenter.attachScreen(this);
+        tracker.setScreenName("Image~MainActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

@@ -2,12 +2,16 @@ package com.mobsoft.matchapp;
 
 import android.app.Application;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+import com.mobsoft.matchapp.matchapp.R;
 import com.mobsoft.matchapp.repository.Repository;
 import com.mobsoft.matchapp.ui.UiModule;
 
 import javax.inject.Inject;
 
 public class MobSoftApplication extends Application {
+    private Tracker tracker;
     public static MobSoftApplicationComponent injector;
 
     @Inject
@@ -30,5 +34,13 @@ public class MobSoftApplication extends Application {
 
         injector.inject(this);
         repository.open(this);
+    }
+
+    synchronized public Tracker getDefaultTracker() {
+        if (tracker == null){
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return tracker;
     }
 }

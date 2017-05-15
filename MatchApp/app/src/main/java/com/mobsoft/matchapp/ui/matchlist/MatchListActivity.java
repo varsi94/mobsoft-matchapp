@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
 import com.mobsoft.matchapp.model.Match;
@@ -25,6 +27,7 @@ public class MatchListActivity extends AppCompatActivity implements MatchListScr
 
     private ListView listView;
     private MatchListAdapter adapter;
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,9 @@ public class MatchListActivity extends AppCompatActivity implements MatchListScr
 
         MobSoftApplication.injector.inject(this);
         listView = (ListView) findViewById(R.id.matchListView);
+
+        MobSoftApplication app = (MobSoftApplication)getApplication();
+        tracker = app.getDefaultTracker();
     }
 
     @Override
@@ -41,6 +47,8 @@ public class MatchListActivity extends AppCompatActivity implements MatchListScr
         presenter.attachScreen(this);
         StandingsItem item = (StandingsItem) this.getIntent().getSerializableExtra("team");
         presenter.loadMatchesForTeam(item);
+        tracker.setScreenName("Image~MatchListActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

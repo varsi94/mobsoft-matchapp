@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "297855273583",
+    "project_id": "football-league-manager"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297855273583:android:e215f3ecaa31d939",
+        "android_client_info": {
+          "package_name": "com.mobsoft.matchapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNw5w5nnWXdGcZH7Z0aK6aEpuzyuHYz5U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-99150630-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297855273583:android:0f6cdcbb26ea336f",
+        "android_client_info": {
+          "package_name": "com.mobsoft.matchapp.matchapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNw5w5nnWXdGcZH7Z0aK6aEpuzyuHYz5U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-99150630-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

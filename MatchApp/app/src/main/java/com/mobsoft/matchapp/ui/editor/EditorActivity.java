@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.interactor.TeamInteractor;
 import com.mobsoft.matchapp.matchapp.R;
@@ -47,6 +49,7 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
     private EditText highlights;
     private ArrayAdapter<Team> adapter;
     private Button saveBtn;
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,9 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         saveBtn = (Button)findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(this);
         MobSoftApplication.injector.inject(this);
+
+        MobSoftApplication app = (MobSoftApplication)getApplication();
+        tracker = app.getDefaultTracker();
     }
 
     @Override
@@ -79,6 +85,8 @@ public class EditorActivity extends AppCompatActivity implements EditorScreen, V
         super.onStart();
         editorPresenter.attachScreen(this);
         editorPresenter.loadTeams();
+        tracker.setScreenName("Image~EditorActivity");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
