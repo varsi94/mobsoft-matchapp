@@ -24,6 +24,10 @@
         <meta-data android:name="VERSION" android:value="4" />
         <meta-data android:name="QUERY_LOG" android:value="true"/>
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.mobsoft.matchapp.model"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="310708f32e43dd5d9388b914e5bd63461e336093" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

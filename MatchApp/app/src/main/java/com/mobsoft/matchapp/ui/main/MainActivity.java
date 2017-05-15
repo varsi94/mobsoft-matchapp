@@ -8,11 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.mobsoft.matchapp.DaggerMobSoftApplicationComponent;
 import com.mobsoft.matchapp.MobSoftApplication;
 import com.mobsoft.matchapp.matchapp.R;
 import com.mobsoft.matchapp.ui.standings.StandingsActivity;
 
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements MainScreen {
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         teamNameTextBox = (EditText) findViewById(R.id.teamNameEditText);
@@ -72,5 +75,9 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
 
     public void login(View view) {
         mainPresenter.logIn(teamNameTextBox.getText().toString(), passwordTextBox.getText().toString());
+    }
+
+    public void forceCrash(View view) {
+        throw new RuntimeException("This is a crash");
     }
 }
